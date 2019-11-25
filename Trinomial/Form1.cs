@@ -45,7 +45,7 @@ namespace Trinomial
 
 
 
-            if (!k_s || !s_s || !r_s || !t_s || !sig_s || !n_s || !div_s)
+            if (!k_s || !s_s || !r_s || !t_s || !sig_s || !n_s || !div_s ||k<0||s<0||t<0||sig<0||n<0||div<0)
             {
                 MessageBox.Show("You have entered an invalid value.");
             }
