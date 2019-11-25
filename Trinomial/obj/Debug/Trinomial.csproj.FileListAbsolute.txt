@@ -1,0 +1,9 @@
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\bin\Debug\Trinomial.exe.config
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\bin\Debug\Trinomial.exe
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\bin\Debug\Trinomial.pdb
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\obj\Debug\Trinomial.csprojAssemblyReference.cache
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\obj\Debug\Trinomial.Form.resources
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\obj\Debug\Trinomial.Properties.Resources.resources
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\obj\Debug\Trinomial.csproj.GenerateResource.cache
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\obj\Debug\Trinomial.exe
+C:\Users\Haojerr\source\repos\Trinomial\Trinomial\obj\Debug\Trinomial.pdb
