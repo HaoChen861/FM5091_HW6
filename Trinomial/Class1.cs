@@ -65,7 +65,7 @@ namespace Trinomial
 
             p_mat =p_mat_fun();
             c_mat = c_mat_fun_setup();
-
+            //abc
 
             
         }
