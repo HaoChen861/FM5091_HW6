@@ -283,7 +283,7 @@
             // op_px
             // 
             this.op_px.Text = "Option Price";
-            this.op_px.Width = 93;
+            this.op_px.Width = 114;
             // 
             // delta
             // 
@@ -298,12 +298,12 @@
             // theta
             // 
             this.theta.Text = "Theta";
-            this.theta.Width = 92;
+            this.theta.Width = 118;
             // 
             // vega
             // 
             this.vega.Text = "Vega";
-            this.vega.Width = 108;
+            this.vega.Width = 121;
             // 
             // rho
             // 
