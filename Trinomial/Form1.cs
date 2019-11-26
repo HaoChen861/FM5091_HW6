@@ -47,15 +47,15 @@ namespace Trinomial
 
             if (!k_s || !s_s || !r_s || !t_s || !sig_s || !n_s || !div_s ||k<0||s<0||t<0||sig<0||n<0||div<0)
             {
-                MessageBox.Show("You have entered an invalid value.");
+                MessageBox.Show("You have entered (an) invalid value(s).","Error");
             }
             else if (amer_check.Checked == euro_check.Checked)
             {
-                MessageBox.Show("You have not chose an option version");
+                MessageBox.Show("You have not chose an option version", "Error");
             }
             else if (call_check.Checked == put_check.Checked)
             {
-                MessageBox.Show("You have not chose an option type");
+                MessageBox.Show("You have not chose an option type", "Error");
             }
             else
             {
