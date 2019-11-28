@@ -69,7 +69,7 @@ namespace Trinomial
                     double vega = (b.get_price() - b1.get_price()) / 0.002;
                     double rho = (c.get_price() - c1.get_price()) / 0.002;
 
-                    string[] row = {a.get_price().ToString(),a.get_delta().ToString(),a.get_gamma().ToString(),a.get_theta().ToString(),vega.ToString(),rho.ToString()};
+                    string[] row = {"American","Call",a.get_price().ToString(),a.get_delta().ToString(),a.get_gamma().ToString(),a.get_theta().ToString(),vega.ToString(),rho.ToString()};
                     var list = new ListViewItem(row);
                     output_list.Items.Add(list);
                 }
@@ -83,7 +83,7 @@ namespace Trinomial
                     double vega = (b.get_price() - b1.get_price()) / 0.002;
                     double rho = (c.get_price() - c1.get_price()) / 0.002;
 
-                    string[] row = { a.get_price().ToString(), a.get_delta().ToString(), a.get_gamma().ToString(), a.get_theta().ToString(), vega.ToString(), rho.ToString() };
+                    string[] row = { "American", "Put", a.get_price().ToString(), a.get_delta().ToString(), a.get_gamma().ToString(), a.get_theta().ToString(), vega.ToString(), rho.ToString() };
                     var list = new ListViewItem(row);
                     output_list.Items.Add(list);
                 }
@@ -96,7 +96,7 @@ namespace Trinomial
                     Trinomial.euro_call c1 = new Trinomial.euro_call(k, s, r, t-0.0001, sig, div, n);
                     double vega = (b.get_price() - b1.get_price()) / 0.0002;
                     double rho = (c.get_price() - c1.get_price()) / 0.0002;
-                    string[] row = { a.get_price().ToString(), a.get_delta().ToString(), a.get_gamma().ToString(), a.get_theta().ToString(), vega.ToString(), rho.ToString() };
+                    string[] row = { "European", "Call", a.get_price().ToString(), a.get_delta().ToString(), a.get_gamma().ToString(), a.get_theta().ToString(), vega.ToString(), rho.ToString() };
                     var list = new ListViewItem(row);
                     output_list.Items.Add(list);
 
@@ -110,7 +110,7 @@ namespace Trinomial
                     Trinomial.euro_put c1 = new Trinomial.euro_put(k, s, r-0.001, t, sig, div, n);
                     double vega = (b.get_price() - b1.get_price()) / 0.0002;
                     double rho = (c.get_price() - c1.get_price()) / 0.0002;
-                    string[] row = { a.get_price().ToString(), a.get_delta().ToString(), a.get_gamma().ToString(), a.get_theta().ToString(), vega.ToString(), rho.ToString() };
+                    string[] row = { "European", "Put", a.get_price().ToString(), a.get_delta().ToString(), a.get_gamma().ToString(), a.get_theta().ToString(), vega.ToString(), rho.ToString() };
                     var list = new ListViewItem(row);
                     output_list.Items.Add(list);
 

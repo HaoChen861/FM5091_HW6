@@ -57,13 +57,15 @@
             this.theta = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.vega = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rho = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Opt_type_box.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // K_val
             // 
-            this.K_val.Location = new System.Drawing.Point(925, 31);
+            this.K_val.Location = new System.Drawing.Point(1072, 29);
             this.K_val.Name = "K_val";
             this.K_val.Size = new System.Drawing.Size(100, 20);
             this.K_val.TabIndex = 0;
@@ -71,7 +73,7 @@
             // K_tag
             // 
             this.K_tag.AutoSize = true;
-            this.K_tag.Location = new System.Drawing.Point(790, 33);
+            this.K_tag.Location = new System.Drawing.Point(937, 31);
             this.K_tag.Name = "K_tag";
             this.K_tag.Size = new System.Drawing.Size(34, 13);
             this.K_tag.TabIndex = 1;
@@ -80,7 +82,7 @@
             // S_tag
             // 
             this.S_tag.AutoSize = true;
-            this.S_tag.Location = new System.Drawing.Point(790, 58);
+            this.S_tag.Location = new System.Drawing.Point(937, 56);
             this.S_tag.Name = "S_tag";
             this.S_tag.Size = new System.Drawing.Size(57, 13);
             this.S_tag.TabIndex = 2;
@@ -88,7 +90,7 @@
             // 
             // S_val
             // 
-            this.S_val.Location = new System.Drawing.Point(925, 55);
+            this.S_val.Location = new System.Drawing.Point(1072, 53);
             this.S_val.Name = "S_val";
             this.S_val.Size = new System.Drawing.Size(100, 20);
             this.S_val.TabIndex = 3;
@@ -96,7 +98,7 @@
             // T_tag
             // 
             this.T_tag.AutoSize = true;
-            this.T_tag.Location = new System.Drawing.Point(790, 82);
+            this.T_tag.Location = new System.Drawing.Point(937, 80);
             this.T_tag.Name = "T_tag";
             this.T_tag.Size = new System.Drawing.Size(76, 13);
             this.T_tag.TabIndex = 4;
@@ -104,7 +106,7 @@
             // 
             // T_val
             // 
-            this.T_val.Location = new System.Drawing.Point(925, 79);
+            this.T_val.Location = new System.Drawing.Point(1072, 77);
             this.T_val.Name = "T_val";
             this.T_val.Size = new System.Drawing.Size(100, 20);
             this.T_val.TabIndex = 5;
@@ -112,7 +114,7 @@
             // sig_tag
             // 
             this.sig_tag.AutoSize = true;
-            this.sig_tag.Location = new System.Drawing.Point(790, 106);
+            this.sig_tag.Location = new System.Drawing.Point(937, 104);
             this.sig_tag.Name = "sig_tag";
             this.sig_tag.Size = new System.Drawing.Size(92, 13);
             this.sig_tag.TabIndex = 6;
@@ -120,7 +122,7 @@
             // 
             // Sig_val
             // 
-            this.Sig_val.Location = new System.Drawing.Point(925, 103);
+            this.Sig_val.Location = new System.Drawing.Point(1072, 101);
             this.Sig_val.Name = "Sig_val";
             this.Sig_val.Size = new System.Drawing.Size(100, 20);
             this.Sig_val.TabIndex = 7;
@@ -128,7 +130,7 @@
             // r_tag
             // 
             this.r_tag.AutoSize = true;
-            this.r_tag.Location = new System.Drawing.Point(790, 130);
+            this.r_tag.Location = new System.Drawing.Point(937, 128);
             this.r_tag.Name = "r_tag";
             this.r_tag.Size = new System.Drawing.Size(126, 13);
             this.r_tag.TabIndex = 8;
@@ -136,7 +138,7 @@
             // 
             // R_val
             // 
-            this.R_val.Location = new System.Drawing.Point(925, 127);
+            this.R_val.Location = new System.Drawing.Point(1072, 125);
             this.R_val.Name = "R_val";
             this.R_val.Size = new System.Drawing.Size(100, 20);
             this.R_val.TabIndex = 9;
@@ -144,7 +146,7 @@
             // div_tag
             // 
             this.div_tag.AutoSize = true;
-            this.div_tag.Location = new System.Drawing.Point(790, 154);
+            this.div_tag.Location = new System.Drawing.Point(937, 152);
             this.div_tag.Name = "div_tag";
             this.div_tag.Size = new System.Drawing.Size(49, 13);
             this.div_tag.TabIndex = 10;
@@ -153,7 +155,7 @@
             // 
             // Div_val
             // 
-            this.Div_val.Location = new System.Drawing.Point(925, 151);
+            this.Div_val.Location = new System.Drawing.Point(1072, 149);
             this.Div_val.Name = "Div_val";
             this.Div_val.Size = new System.Drawing.Size(100, 20);
             this.Div_val.TabIndex = 11;
@@ -161,7 +163,7 @@
             // n_tag
             // 
             this.n_tag.AutoSize = true;
-            this.n_tag.Location = new System.Drawing.Point(790, 178);
+            this.n_tag.Location = new System.Drawing.Point(937, 176);
             this.n_tag.Name = "n_tag";
             this.n_tag.Size = new System.Drawing.Size(86, 13);
             this.n_tag.TabIndex = 12;
@@ -169,7 +171,7 @@
             // 
             // N_val
             // 
-            this.N_val.Location = new System.Drawing.Point(925, 175);
+            this.N_val.Location = new System.Drawing.Point(1072, 173);
             this.N_val.Name = "N_val";
             this.N_val.Size = new System.Drawing.Size(100, 20);
             this.N_val.TabIndex = 13;
@@ -189,7 +191,7 @@
             // 
             this.Opt_type_box.Controls.Add(this.euro_check);
             this.Opt_type_box.Controls.Add(this.amer_check);
-            this.Opt_type_box.Location = new System.Drawing.Point(793, 209);
+            this.Opt_type_box.Location = new System.Drawing.Point(940, 207);
             this.Opt_type_box.Name = "Opt_type_box";
             this.Opt_type_box.Size = new System.Drawing.Size(232, 50);
             this.Opt_type_box.TabIndex = 15;
@@ -233,7 +235,7 @@
             // 
             // cal_button
             // 
-            this.cal_button.Location = new System.Drawing.Point(793, 320);
+            this.cal_button.Location = new System.Drawing.Point(940, 318);
             this.cal_button.Name = "cal_button";
             this.cal_button.Size = new System.Drawing.Size(112, 53);
             this.cal_button.TabIndex = 16;
@@ -243,7 +245,7 @@
             // 
             // reset
             // 
-            this.reset.Location = new System.Drawing.Point(911, 320);
+            this.reset.Location = new System.Drawing.Point(1058, 318);
             this.reset.Name = "reset";
             this.reset.Size = new System.Drawing.Size(114, 53);
             this.reset.TabIndex = 18;
@@ -255,7 +257,7 @@
             // 
             this.groupBox1.Controls.Add(this.put_check);
             this.groupBox1.Controls.Add(this.call_check);
-            this.groupBox1.Location = new System.Drawing.Point(793, 266);
+            this.groupBox1.Location = new System.Drawing.Point(940, 264);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(232, 48);
             this.groupBox1.TabIndex = 19;
@@ -265,6 +267,8 @@
             // output_list
             // 
             this.output_list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
             this.op_px,
             this.delta,
             this.gamma,
@@ -274,7 +278,7 @@
             this.output_list.HideSelection = false;
             this.output_list.Location = new System.Drawing.Point(26, 31);
             this.output_list.Name = "output_list";
-            this.output_list.Size = new System.Drawing.Size(747, 342);
+            this.output_list.Size = new System.Drawing.Size(905, 342);
             this.output_list.TabIndex = 21;
             this.output_list.UseCompatibleStateImageBehavior = false;
             this.output_list.View = System.Windows.Forms.View.Details;
@@ -310,11 +314,21 @@
             this.rho.Text = "Rho";
             this.rho.Width = 180;
             // 
+            // columnHeader1
+            // 
+            this.columnHeader1.DisplayIndex = 0;
+            this.columnHeader1.Text = "Option Version";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.DisplayIndex = 1;
+            this.columnHeader2.Text = "Option Type";
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1049, 397);
+            this.ClientSize = new System.Drawing.Size(1188, 397);
             this.Controls.Add(this.output_list);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.reset);
@@ -376,6 +390,8 @@
         private System.Windows.Forms.ColumnHeader theta;
         private System.Windows.Forms.ColumnHeader vega;
         private System.Windows.Forms.ColumnHeader rho;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 
