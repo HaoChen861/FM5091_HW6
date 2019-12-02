@@ -15,22 +15,26 @@ namespace Trinomial
         double sig;//vol
         double div;//dividend
         int n;//number of step
-        double dx;
-        double edx; //e^dx
         double dt;//time change in a step
-        double v;
-        double pu;//p of going up
-        double pm;//p of stay the same
-        double pd;//p of going down
-        double disc;//discount
+
         double [,] p_mat;//price matrix
         double [,] c_mat;//option matrix
+
+        double[,] p_mat_vega_u;
+        double[,] p_mat_vega_d;
+
+        double[,] c_mat_rho_u;
+        double[,] c_mat_rho_d;
+        double[,] c_mat_vega_u;
+        double[,] c_mat_vega_d;
+
 
         //greeks:
         double delta;
         double gamma;
         double theta;
-
+        double vega;
+        double rho;
 
         
 
@@ -45,43 +49,35 @@ namespace Trinomial
             sig = aSig;
             div = aDiv;
             n = aN+1;
-            
-            dt = t / (n-1);
-            dx = sig * Math.Sqrt(3 * dt);
-            edx = Math.Pow(Math.E,dx);
+            dt = t / (n - 1);
 
-            v = r-div -(0.5)*Math.Pow(sig,2);
+            p_mat =p_mat_fun(s,t,sig,n);
+            p_mat_vega_u = p_mat_fun(s, t, sig+0.001, n);
+            p_mat_vega_d = p_mat_fun(s, t, sig-0.001, n);
 
-            //pu=1/2*((sig^2dt+v^2dt^2)/(dx^2)+(vdt)/(dx))
-            pu = (0.5) * ((Math.Pow(sig, 2) * dt+Math.Pow(v,2)*Math.Pow(dt,2)) / (Math.Pow(dx, 2)) + (v * dt) / (dx));
+            c_mat = c_mat_fun_setup(p_mat);
+            c_mat_vega_u = c_mat_fun_setup(p_mat_vega_u);
+            c_mat_vega_d = c_mat_fun_setup(p_mat_vega_d);
 
-            //pm=1-((sig^2dt+v^2dt^2)/(dx^2))
-            pm = 1 - ((Math.Pow(sig, 2) * dt + Math.Pow(v, 2) * Math.Pow(dt, 2)) / (Math.Pow(dx, 2)));
 
-            //pd=1/2*((sig^2dt+v^2dt^2)/(dx^2)-(vdt)/(dx))
-            pd = (0.5) * ((Math.Pow(sig, 2) * dt + Math.Pow(v, 2) * Math.Pow(dt, 2)) / (Math.Pow(dx, 2)) - (v * dt) / (dx));
-
-            disc = Math.Pow( Math.E, -r * dt);
-
-            p_mat =p_mat_fun();
-            c_mat = c_mat_fun_setup();
-            
-
-            
         }
 
-
-        public virtual double get_price()
-        {
-            return c_mat[0,0];
-        }
 
         /// <summary>
         /// Populate the S matrix. the highest row have 1/edx for each subsequent value. and then times each value by edx based on the previous row value. 
         /// </summary>
         /// <returns>the S matrix</returns>
-        private double[,] p_mat_fun()
+        private double[,] p_mat_fun(double s, double t, double sig,int n)
         {
+            double dx;
+            double edx; //e^dx
+
+
+
+            dx = sig * Math.Sqrt(3 * dt);
+            edx = Math.Pow(Math.E, dx);
+
+
             double[,] mat = new double[2 * n -1, n];
             mat[0, 0] = s;
             for (int h =1; h < n; h++)
@@ -110,13 +106,13 @@ namespace Trinomial
         /// setup value for the c_mat, add values of the last column of p to c_mat
         /// </summary>
         /// <returns>c mat</returns>
-        public double[,] c_mat_fun_setup()
+        public double[,] c_mat_fun_setup(double [,] mat2)
         {
             double[,] mat = new double[2 * n - 1, n];
 
             for (int i = 0; i < 2 * n - 1; i++)
             {
-                mat[i, n-1] = p_mat[i, n-1];
+                mat[i, n-1] = mat2[i, n-1];
             }
 
 
@@ -126,8 +122,35 @@ namespace Trinomial
         /// American mat, have 
         /// </summary>
         /// <returns></returns>
-        public double[,] c_mat_fun_a_call()
+        public double[,] c_mat_fun(double k,double r,double t, double sig, double div, int n,string type,double [,] c_mat,double [,] p_mat)
         {
+            double v;
+            double pu;//p of going up
+            double pm;//p of stay the same
+            double pd;//p of going down
+            double disc;//discount
+            double dx;
+
+
+
+            dx = sig * Math.Sqrt(3 * dt);
+
+
+
+            v = r - div - (0.5) * Math.Pow(sig, 2);
+
+            //pu=1/2*((sig^2dt+v^2dt^2)/(dx^2)+(vdt)/(dx))
+            pu = (0.5) * ((Math.Pow(sig, 2) * dt + Math.Pow(v, 2) * Math.Pow(dt, 2)) / (Math.Pow(dx, 2)) + (v * dt) / (dx));
+
+            //pm=1-((sig^2dt+v^2dt^2)/(dx^2))
+            pm = 1 - ((Math.Pow(sig, 2) * dt + Math.Pow(v, 2) * Math.Pow(dt, 2)) / (Math.Pow(dx, 2)));
+
+            //pd=1/2*((sig^2dt+v^2dt^2)/(dx^2)-(vdt)/(dx))
+            pd = (0.5) * ((Math.Pow(sig, 2) * dt + Math.Pow(v, 2) * Math.Pow(dt, 2)) / (Math.Pow(dx, 2)) - (v * dt) / (dx));
+
+            disc = Math.Pow(Math.E, -r * dt);
+
+
             for (int j = n-2; j >= 0; j--)
             {
                 for (int i = 2*(n-2); i >=0; i --)
@@ -138,55 +161,18 @@ namespace Trinomial
                     }
                     else
                     {
-                        c_mat[i, j] = Math.Max( disc * (pd * c_mat[i, j + 1] + pm * c_mat[i + 1, j + 1] + pu * c_mat[i + 2, j + 1]),p_mat[i,j]-k);
-                    }
-                }
-            }
-
-            return c_mat;
-        }
-
-        /// <summary>
-        /// American put function, max of (k-p_mat[i,j],c_mat[i,j])
-        /// </summary>
-        /// <returns></returns>
-        public double[,] c_mat_fun_a_put()
-        {
-            for (int j = n - 2; j >= 0; j--)
-            {
-                for (int i = 2 * (n - 2); i >= 0; i--)
-                {
-                    if (j < i / 2)
-                    {
-                        c_mat[i, j] = 0;
-                    }
-                    else
-                    {
-                        c_mat[i, j] = Math.Max(disc * (pd * c_mat[i, j + 1] + pm * c_mat[i + 1, j + 1] + pu * c_mat[i + 2, j + 1]), k-p_mat[i, j]);
-                    }
-                }
-            }
-
-            return c_mat;
-        }
-
-        /// <summary>
-        /// Function to build c_mat 
-        /// </summary>
-        /// <returns></returns>
-        public double[,] c_mat_fun_c()
-        {
-            for (int j = n - 2; j >= 0; j--)
-            {
-                for (int i = 2 * (n - 2); i >= 0; i--)
-                {
-                    if (j < i / 2)
-                    {
-                        c_mat[i, j] = 0;
-                    }
-                    else
-                    {
-                        c_mat[i, j] = disc * (pd * c_mat[i, j + 1] + pm * c_mat[i + 1, j + 1] + pu * c_mat[i + 2, j + 1]);
+                        if (type == "AC")//AC is amer call
+                        {
+                            c_mat[i, j] = Math.Max(disc * (pd * c_mat[i, j + 1] + pm * c_mat[i + 1, j + 1] + pu * c_mat[i + 2, j + 1]), p_mat[i, j] - k);
+                        }
+                        else if( type == "AP")//AP is amer put
+                        {
+                            c_mat[i, j] = Math.Max(disc * (pd * c_mat[i, j + 1] + pm * c_mat[i + 1, j + 1] + pu * c_mat[i + 2, j + 1]), k - p_mat[i, j]);
+                        }
+                        else
+                        {
+                            c_mat[i, j] = disc * (pd * c_mat[i, j + 1] + pm * c_mat[i + 1, j + 1] + pu * c_mat[i + 2, j + 1]);
+                        }
                     }
                 }
             }
@@ -203,14 +189,36 @@ namespace Trinomial
             public amer_call(double aK, double aS, double aR, double aT, double aSig, double aDiv, int aN)
                 :base(aK,aS,aR,aT,aSig,aDiv,aN)
             {
+                //base c_mat
                 for (int h=0; h < 2 * n - 1; h++)
                 {
                     c_mat[h, n - 1] = Math.Max(0, c_mat[h, n - 1] - k);
                 }
 
-                c_mat = c_mat_fun_a_call();
+                double[,] c_mat_2 = deep_copy_mat(c_mat);
+                double[,] c_mat_3 = deep_copy_mat(c_mat);
 
+                c_mat = c_mat_fun(k, r,t, sig, div, n,"AC",c_mat,p_mat);
 
+                //vega c_mat
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_u[h, n - 1] = Math.Max(0, c_mat_vega_u[h, n - 1] - k);
+                }
+
+                c_mat_vega_u = c_mat_fun(k, r,t, sig+0.001, div, n, "AC",c_mat_vega_u,p_mat_vega_u);
+
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_d[h, n - 1] = Math.Max(0, c_mat_vega_d[h, n - 1] - k);
+                }
+
+                c_mat_vega_d = c_mat_fun(k, r,t, sig - 0.001, div, n, "AC",c_mat_vega_d,p_mat_vega_d);
+
+                //rho c_mat
+
+                c_mat_rho_u = c_mat_fun(k, r+0.001,t, sig, div, n, "AC",c_mat_2,p_mat);
+                c_mat_rho_d = c_mat_fun(k, r-0.001,t, sig, div, n, "AC",c_mat_3,p_mat);
 
             }
         }
@@ -225,7 +233,30 @@ namespace Trinomial
                     c_mat[h, n - 1] = Math.Max(0,k- c_mat[h, n - 1]);
                 }
 
-                c_mat = c_mat_fun_a_put();
+                double[,] c_mat_2 = deep_copy_mat(c_mat);
+                double[,] c_mat_3 = deep_copy_mat(c_mat);
+
+                c_mat = c_mat_fun(k, r,t, sig, div, n, "AP",c_mat,p_mat);
+                
+                //vega c_mat
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_u[h, n - 1] = Math.Max(0, k - c_mat_vega_u[h, n - 1]);
+                }
+
+                c_mat_vega_u = c_mat_fun(k, r,t, sig + 0.001, div, n, "AP",c_mat_vega_u,p_mat_vega_u);
+
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_d[h, n - 1] = Math.Max(0, k - c_mat_vega_d[h, n - 1]);
+                }
+
+                c_mat_vega_d = c_mat_fun(k, r,t, sig - 0.001, div, n, "AP",c_mat_vega_d,p_mat_vega_d);
+
+                //rho c_mat
+
+                c_mat_rho_u = c_mat_fun(k, r + 0.001,t, sig, div, n, "AP",c_mat_2,p_mat);
+                c_mat_rho_d = c_mat_fun(k, r - 0.001,t, sig, div, n, "AP",c_mat_3,p_mat);
 
 
 
@@ -237,12 +268,35 @@ namespace Trinomial
             public euro_call(double aK, double aS, double aR, double aT, double aSig, double aDiv, int aN)
                 : base(aK, aS, aR, aT, aSig, aDiv, aN)
             {
+                //base case
                 for (int h = 0; h < 2 * n - 1; h++)
                 {
                     c_mat[h, n - 1] = Math.Max(0, c_mat[h, n - 1] - k);
                 }
+                double[,] c_mat_2 = deep_copy_mat(c_mat);
+                double[,] c_mat_3 = deep_copy_mat(c_mat);
 
-                c_mat = c_mat_fun_c();
+                c_mat = c_mat_fun(k, r,t, sig, div, n, "E",c_mat,p_mat);
+
+                //vega c_mat
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_u[h, n - 1] = Math.Max(0, c_mat_vega_u[h, n - 1] - k);
+                }
+
+                c_mat_vega_u = c_mat_fun(k, r,t, sig + 0.001, div, n, "E",c_mat_vega_u,p_mat_vega_u);
+
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_d[h, n - 1] = Math.Max(0, c_mat_vega_d[h, n - 1] - k);
+                }
+
+                c_mat_vega_d = c_mat_fun(k, r,t, sig - 0.001, div, n, "E",c_mat_vega_d,p_mat_vega_d);
+
+                //rho c_mat
+
+                c_mat_rho_u = c_mat_fun(k, r + 0.001,t, sig, div, n, "E",c_mat_2,p_mat);
+                c_mat_rho_d = c_mat_fun(k, r - 0.001,t, sig, div, n, "E",c_mat_3,p_mat);
 
 
 
@@ -258,14 +312,42 @@ namespace Trinomial
                 {
                     c_mat[h, n - 1] = Math.Max(0, k - c_mat[h, n - 1]);
                 }
+                double[,] c_mat_2 = deep_copy_mat(c_mat);
+                double[,] c_mat_3 = deep_copy_mat(c_mat);
 
-                c_mat = c_mat_fun_c();
+                c_mat = c_mat_fun(k, r,t, sig, div, n, "E",c_mat,p_mat);
+
+                //vega c_mat
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_u[h, n - 1] = Math.Max(0, k - c_mat_vega_u[h, n - 1]);
+                }
+
+                c_mat_vega_u = c_mat_fun(k, r,t, sig + 0.001, div, n, "E",c_mat_vega_u,p_mat_vega_u);
+
+                for (int h = 0; h < 2 * n - 1; h++)
+                {
+                    c_mat_vega_d[h, n - 1] = Math.Max(0, k - c_mat_vega_d[h, n - 1]);
+                }
+
+                c_mat_vega_d = c_mat_fun(k, r,t, sig - 0.001, div, n, "E",c_mat_vega_d,p_mat_vega_d);
+
+                //rho c_mat
+
+                c_mat_rho_u = c_mat_fun(k, r + 0.001,t, sig, div, n, "E",c_mat_2,p_mat);
+                c_mat_rho_d = c_mat_fun(k, r - 0.001,t, sig, div, n, "E",c_mat_3,p_mat);
 
 
 
             }
         }
 
+
+
+        public virtual double get_price()
+        {
+            return c_mat[0, 0];
+        }
 
         public double get_delta()
         {
@@ -285,6 +367,25 @@ namespace Trinomial
         {
             theta = (c_mat[1, 1] - c_mat[0, 0]) / dt;
             return theta;
+        }
+
+        public double get_vega()
+        {
+            vega = (c_mat_vega_u[0, 0] - c_mat_vega_d[0, 0]) / 0.002;
+            return vega;
+        }
+
+        public double get_rho()
+        {
+            rho = (c_mat_rho_u[0, 0] - c_mat_rho_d[0, 0]) / 0.002;
+            return rho;
+        }
+
+        public double[,] deep_copy_mat(double [,] mat)
+        {
+            double[,] mat_copy = mat.Clone() as double[,];
+
+            return mat_copy;
         }
 
     }
